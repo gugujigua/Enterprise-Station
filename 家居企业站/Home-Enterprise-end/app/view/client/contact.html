@@ -1,0 +1,93 @@
+<%- include('header.html')%>
+<link rel="stylesheet" href="/public/client/css/contact.css">
+<div id="n_main_box">
+    <div id="n_content">
+        <div class="about_title">
+            <h1><%= contact[4].title%></h1>
+            <strong></strong>
+        </div>
+        <section id="n_gjyw">
+            <div class="main_box">
+                <article class="ar_article">
+                    <%- contact[4].content%>
+                    <div id="single_mess" class="single_mess">
+                        <div class="lam_box">
+                            <div class="box clearfix">
+                                <div class="ow_links">
+                                    <span></span>
+                                    <h2>在线留言</h2>
+                                </div>
+                                <div class="message">
+                                    <form class="message-body" action="#" method="post">
+                                        <input type="text" placeholder="您的姓名" name="name" id="linkMan">
+                                        <input type="text" placeholder="联系电话" name="contact" id="telephone">
+                                        <textarea name="msg" id="message" placeholder="描述您的需求"></textarea>
+                                        <div class="captcha-box">
+                                            <input type="text" placeholder="验证码" name="vcode" id="captcha">
+                                            <img src="/public/client/image/vf.gif" class="refresh-captcha" id="captcha-pic">
+                                        </div>
+                                        <input type="button" placeholder="提交咨询" value="提交咨询" class="message-submit">
+                                        <span id="submit-info" class="submit-info"></span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="/public/client/js/jquery-3.6.0.min.js"></script>
+<!-- 使用layer必须先引入jquery -->
+<script src="/public/client/layer/layer.js"></script>
+<script>
+    // layer
+    var linkMan = document.querySelector("#linkMan")
+    var telephone = document.querySelector("#telephone")
+    var message = document.querySelector("#message")
+    var vcode = document.querySelector("#captcha")
+    var messageSubmit = document.querySelector(".message-submit")
+    // 表单验证
+    messageSubmit.onclick = function(){
+        if(!linkMan.value){
+            layer.msg("请输入联系人")
+            return ;
+        }
+        if(!telephone.value){
+            layer.msg("请输入联系方式")
+            return ;
+        }
+        if(!message.value){
+            layer.msg("请输入你的需求")
+            return ;
+        }
+        if(!vcode.value){
+            layer.msg("请输入验证码")
+            return ;
+        }
+        $.ajax({
+            url:"/contact",
+            type:"post",
+            data:{
+                user:linkMan.value,
+                phone:telephone.value,
+                content:message.value
+            },
+            success:function(res){
+                if(res.code == 200){
+                    linkMan.value="";
+                    telephone.value="";
+                    message.value="";
+                    vcode.value="";
+                }
+                layer.msg(res.msg)
+            },
+            error:function(){
+                layer.msg("提交出错，请稍后重试")
+            }
+        })
+    }
+</script>
+
+<%- include('footer.html')%>

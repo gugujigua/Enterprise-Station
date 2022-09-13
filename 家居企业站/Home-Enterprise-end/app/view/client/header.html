@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || info[0].title%></title>
+    <meta name="keywords" content="<%= keywords || info[0].keywords%>">
+    <meta name="description" content="<%= description || info[0].description%>">
+    <link rel="stylesheet" href="/public/client/css/u-reset.css">
+    <link rel="stylesheet" href="/public/client/css/swiper-bundle.min.css">
+    <style>
+        #top_tel_box {
+            display: none;
+            position: absolute;
+            top: 125px;
+            right: 0px;
+            width: 240px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            background: #fff;
+            font-size: 14px;
+            color: #545454;
+            z-index: 999999;
+            border-top: 1px solid #ededed;
+        }
+        .fix {
+            position: fixed;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body">
+        <div class="head">
+            <div id="header" >
+                <section id="top_bar">
+                    <div class="main_box">
+                        <div id="logo" style="transition: all 0.8s ease-in-out">
+                            <img src="<%= info[0].logo%>" style="max-width:121px">
+                        </div>
+                        <aside id="top_bnt_box" style="transition: all 0.8s ease-in-out">
+                            <a href="/contact" id="bnt_top_tel">
+                            </a>
+                        </aside>
+                        <aside id="top_tel_box">
+                            咨询热线：<%= info[0].helpline%>
+                        </aside>
+                        <div id="nav" style="transition: all 0.8s ease-in-out">
+                            <ul>
+                                <li <% if(ctx.path ==='/') {%> class="on" <% }%>>
+                                    <a href="/" class="a">
+                                        <strong>网站首页</strong>
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li <% if(ctx.path ==='/about') {%> class="on" <% }%>>
+                                    <a href="/about" class="a">
+                                        <strong>关于我们</strong>
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li <% if(ctx.path ==='/product' || ctx.path ==='/product/'+ctx.params.id) {%>
+                                    class="on" <% }%>>
+                                    <a href="/product" class="a">
+                                        <strong>家具产品 </strong>
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li <% if(ctx.path ==='/office') {%> class="on" <% }%>>
+                                    <a href="/office" class="a">
+                                        <strong>办公家具</strong>
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li <% if(ctx.path ==='/apartment') {%> class="on" <% }%>>
+                                    <a href="/apartment" class="a">
+                                        <strong>公寓家具</strong>
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li <% if(ctx.path ==='/hotel') {%> class="on" <% }%>>
+                                    <a href="/hotel" class="a">
+                                        <strong>酒店家具</strong>
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li <% if(ctx.path ==='/news' || ctx.path ==='/news/'+ctx.params.id) {%> class="on"
+                                    <% }%>>
+                                    <a href="/news" class="a">
+                                        <strong>新闻中心</strong>
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li <% if(ctx.path ==='/contact') {%> class="on" <% }%>>
+                                    <a href="/contact" class="a">
+                                        <strong>联系我们</strong>
+                                        <span>
+                                            <i></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="zw_box"></div>
+        <div id="banner">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <% for(var i in wheel){%>
+                    <div class="swiper-slide">
+                        <a href="<%= wheel[i].title%>">
+                            <img src="<%= wheel[i].thumb%>" alt="<%= wheel[i].title%>" style="max-width:100%">
+                        </a>
+                    </div>
+                    <% } %>
+                    <!-- <div class="swiper-slide">
+                        <img src="./image/ban_2.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./image/ban_1.jpg">
+                    </div> -->
+                </div>
+                <div class="swiper-button-next next">
+                    <img src="/public/client/image/bnt_about_next_hover.png">
+                </div>
+                <div class="swiper-button-prev prev">
+                    <img src="/public/client/image/bnt_about_prev_hover.png">
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <script>
+            var bnt = document.querySelector('#top_bnt_box');
+            var tel = document.querySelector('#top_tel_box')
+            bnt.onmouseover = function () {
+                tel.style.display = 'block';
+            }
+            bnt.onmouseout = function () {
+                tel.style.display = 'none';
+            }
+            var logo = document.querySelector('#logo');
+            var top_bnt_box = document.querySelector('#top_bnt_box')
+            var nav = document.querySelector('#nav');
+            var header = document.querySelector('#header')
+            var top_tel_box = document.querySelector('#top_tel_box')
+            window.onscroll = function(){
+                var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+                if(scrollTop>0){
+                    logo.style.top='5px';
+                    top_bnt_box.style.top='30px';
+                    nav.style.top='34px';
+                    header.classList.add('fix')
+                    header.style.height='90px'
+                    top_tel_box.style.top='90px'
+                }else{
+                    logo.style.top='29px';
+                    top_bnt_box.style.top='55px';
+                    nav.style.top='60px';
+                    header.style.height='125px'
+                    top_tel_box.style.top='125px'
+                }
+            }
+        </script>

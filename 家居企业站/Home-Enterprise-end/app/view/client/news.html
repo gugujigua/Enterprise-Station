@@ -1,0 +1,87 @@
+<%- include('header.html')%>
+<link rel="stylesheet" href="/public/client/css/news.css">
+<div id="n_main_box">
+    <section id="n_title">
+        <div class="main_box">
+            <div class="position">
+                <a href="#">首页</a>
+                >>
+                <a href="#" title="家居产品">新闻中心</a>
+            </div>
+        </div>
+    </section>
+    <section id="n_content">
+        <section id="n_gjyw">
+            <div class="main_box">
+                <section>
+                    <div class="pro_title">
+                        <h1>新闻中心</h1>
+                    </div>
+                    <section id="n_caes">
+                        <div class="content_des"></div>
+                        <ul class="clearfix">
+                            <% for(var i in data){%>
+                            <li>
+                                <div class="fl">
+                                    <a href="/news/<%= data[i].id%>">
+                                        <img src="<%= data[i].thumb%>">
+                                    </a>
+                                </div>
+                                <div class="fr">
+                                    <h1>
+                                        <a href="/news/<%= data[i].id%>">
+                                            <%= data[i].title%>
+                                        </a>
+                                        <p>
+                                            对于酒店来说，七年八年改造一次是正常的，因为不管是基于何种原因，7、8年就需要定制酒店家具换新一次，因为酒店家具也有使用期，太旧了对客户的体验不好，体验不好意味着会营业额会逐渐下降，并且还有潜在的安全风
+                                        </p>
+                                    </h1>
+                                </div>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </section>
+                    <div class="pagination-box text-center">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pagination-inner">
+                                    <ul>
+                                        <li>
+                                            <a href="/news?page=1">
+                                                <img src="/public/client/image/leftcut.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/news?page=<%= page-1<=0?1:page-1%>">
+                                                <img src="/public/client/image/goleft.png" alt="">
+                                            </a>
+                                        </li>
+                                        <% for(var i=1;i<=pages;i++){ %>
+                                            <% if( page == i){%>
+                                        <li class="active"><a href="/news/?page=<%= i%>"><%= i%></a></li>
+                                                <%}else{%>
+                                        <li><a href="/news/?page=<%= i%>"><%= i%></a></li>
+                                                <% } %>
+                                        <% } %>
+                                        <li>
+                                            <a href="/news?page=<%= page*1+1>=pages?pages:page*1+1%>">
+                                                <img src="/public/client/image/goright.png" alt="">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/news?page=<%= pages%>">
+                                                <img src="/public/client/image/rightcut.png" alt="">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </section>
+</div>
+
+<%- include('footer.html')%>

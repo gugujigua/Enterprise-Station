@@ -1,0 +1,24 @@
+.layui-container{
+    margin: 0;
+    margin-top: 10px;
+    width: 100%;
+}
+.layui-container .layui-input-block{
+    margin-left: 0;
+}
+.layui-table td, .layui-table th{
+    min-width: 160px;
+}
+.layui-table tr td:last-child{
+    width: 250px !important;
+}
+.layui-table tr td a{
+    float: left;
+}
+.layui-table{
+    margin-bottom: 0;
+}
+.layui-table-page{
+    padding: 14px 7px 0;
+    border-width: 0px 1px 1px;
+}

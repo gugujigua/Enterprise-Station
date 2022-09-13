@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页</title>
+    <link rel="stylesheet" href="/public/admin/layui/css/layui.css">
+    <link rel="stylesheet" href="/public/admin/css/login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="title">
+                优秀家具公司后台登陆
+            </div>
+            <div class="form-box">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">账号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="username" placeholder="请输入账号" autocomplete="off"
+                                class="layui-input" lay-verType="alert">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码</label>
+                        <div class="layui-input-block">
+                            <input type="password" name="password" placeholder="请输入密码" autocomplete="off"
+                                class="layui-input" lay-verType="alert">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block login">
+                            <button class="layui-btn" lay-submit lay-filter="login-form">登录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="copyright">
+            优秀家具公司 &copy; 2022
+        </div>
+        <script src="/public/admin/layui/layui.js"></script>
+        <script>
+            layui.use('form', function () {
+                var form = layui.form;
+                var $ = layui.$; //jquery
+                //监听提交 
+                form.on('submit(login-form)', function (data) {
+                    layer.msg(JSON.stringify(data.field));
+                    $.ajax({
+                        url: '/admin/login',
+                        type: 'post',
+                        data: data.field,
+                        success: function (res) {
+                            console.log(res);
+                            // {code,msg}
+                            if (res.code == 200) {
+                                location.href = '/admin/main'
+                            }
+                            layer.msg(res.msg)
+                        },
+                        error: function (XMLHttpRequest, textStatus) {
+                            layer.msg('出错了')
+                            console.log(XMLHttpRequest, textStatus);
+                        }
+                    })
+                    // ajax 提交数据
+                    return false; //阻止表单提交
+                });
+            });
+        </script>
+    </div>
+    <script src="/public/admin/layui/layui.js"></script>
+</body>
+
+</html>

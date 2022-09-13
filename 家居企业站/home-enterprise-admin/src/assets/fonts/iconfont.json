@@ -1,0 +1,51 @@
+{
+  "id": "3486193",
+  "name": "家居企业管理",
+  "font_family": "element-icons",
+  "css_prefix_text": "el-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1876364",
+      "name": "产品管理",
+      "font_class": "chanpinguanli",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
+      "icon_id": "421128",
+      "name": "自定义页面",
+      "font_class": "zidingyiyemian",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "935642",
+      "name": "合作伙伴",
+      "font_class": "hezuohuoban",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    },
+    {
+      "icon_id": "5203322",
+      "name": "圆圈",
+      "font_class": "yuanquan",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "5437734",
+      "name": "首页轮播图",
+      "font_class": "shouyelunbotu",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "6570231",
+      "name": "新闻",
+      "font_class": "xinwen",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    }
+  ]
+}

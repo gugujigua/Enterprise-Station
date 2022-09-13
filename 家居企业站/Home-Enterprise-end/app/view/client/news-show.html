@@ -1,0 +1,31 @@
+<%- include('header.html')%>
+<link rel="stylesheet" href="/public/client/css/index.css">
+<link rel="stylesheet" href="/public/client/css/product-show.css">
+<div class="box">
+    <h1><%= data.title%></h1>
+    <div class="time">
+        发布时间：<%= data.create_time%>
+    </div>
+    <div class="img">
+        <img src="<%= data.thumb%>" alt="">
+    </div>
+</div>
+<div class="content">
+    <div class="text" style="margin-bottom: 30px;">
+        <%- data.content%>
+    </div>
+    <% if(prev){%>
+        <div>
+            <p style="width:auto">上一篇：</p>
+            <a href="/news/<%= prev.id%>" style="font-weight: 700"><%= prev.title%></a>
+        </div>
+        <% } %>
+        <% if(next){%>
+        <div>
+            <p style="width:auto">下一篇：</p>
+            <a href="/news/<%= next.id%>" style="font-weight: 700"><%= next.title%></a>
+        </div>
+        <% } %>
+</div>
+    
+<%- include('footer.html')%>

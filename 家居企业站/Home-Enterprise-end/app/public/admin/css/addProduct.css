@@ -1,0 +1,20 @@
+.image-box{
+    /* display: block; */
+    width: 120px;
+    height: 120px;
+    border: 1px solid #ccc;
+    position: relative;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.upload-thumb{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+.layui-form-item .layui-input-inline{
+    width: 1000px;
+    
+}

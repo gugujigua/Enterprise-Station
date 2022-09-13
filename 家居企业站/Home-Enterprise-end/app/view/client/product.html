@@ -1,0 +1,84 @@
+<%- include('header.html')%>
+<link rel="stylesheet" href="/public/client/css/Furniture products.css">
+<div id="n_main_box">
+    <section id="n_title">
+        <div class="main_box">
+            <div class="position">
+                <a href="#">首页</a>
+                >>
+                <a href="#" title="家居产品">家居产品</a>
+            </div>
+        </div>
+    </section>
+    <section id="n_content">
+        <section id="n_gjyw">
+            <div class="main_box">
+                <section>
+                    <div class="pro_title">
+                        <h1>家具产品</h1>
+                    </div>
+                    <section id="n_pro_list">
+                        <div class="content img_size">
+                            <ul class="clearfix">
+                                <% for (var i in data){%>
+                                <li>
+                                    <a href="/product/<%= data[i].id%>">
+                                        <div class="pic_box">
+                                            <img src="<%= data[i].thumb%>" alt="<%= data[i].title%>">
+                                        </div>
+                                        <h1><%= data[i].title%></h1>
+                                    </a>
+                                </li>
+                                <% } %>
+                                
+                            </ul>
+                        </div>
+                    </section>
+                    <div class="pagination-box text-center">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pagination-inner">
+                                    <ul>
+                                        <li>
+                                            <a href="/product?page=1">
+                                                <img src="/public/client/image/leftcut.png" alt="">
+                                            </a>
+                                            
+                                        </li>
+                                        <li>
+                                            <a href="/product?page=<%= page-1<=0?1:page-1%>">
+                                                <img src="/public/client/image/goleft.png" alt="">
+                                            </a>
+                                            
+                                        </li>
+                                        <% for(var i=1;i<=pages;i++){ %>
+                                            <% if( page == i){%>
+                                        <li class="active"><a href="/product/?page=<%= i%>"><%= i%></a></li>
+                                                <%}else{%> 
+                                                    <li><a href="/product/?page=<%= i%>"><%= i%></a></li>
+                                                    <% } %>
+                                        <% } %>
+                                        <li>
+                                            <a href="/product?page=<%= page*1+1>=pages?pages:page*1+1%>">
+                                                <img src="/public/client/image/goright.png" alt="">
+                                            </a>
+                                            
+                                        </li>
+                                        <li>
+                                            <a href="/product?page=<%= pages%>">
+                                                <img src="/public/client/image/rightcut.png" alt="">
+                                            </a>
+                                            
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </section>
+</div>
+
+<%- include('footer.html')%>

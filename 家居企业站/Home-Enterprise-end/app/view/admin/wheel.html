@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图列表</title>
+    <link rel="stylesheet" href="/public/admin/layui/css/layui.css">
+    <link rel="stylesheet" href="/public/admin/css/common.css">
+    <link rel="stylesheet" href="/public/admin/css/wheel.css">
+</head>
+<body>
+    <div class="layui-panel">
+        <a href="/admin/wheelAdd" class="layui-btn">添加</a>
+        <table class="layui-table">
+            <colgroup>
+              <col width="150">
+              <col width="200">
+              <col>
+              <col>
+              <col>
+              <col width="200">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>图片</th>
+                <th>链接</th>
+                <th>排序</th>
+                <th>操作</th>
+              </tr> 
+            </thead>
+            <tbody>
+              <% for(var i in wheels){%>
+              <tr>
+                <td><%= wheels[i].id%></td>
+                <td><%= wheels[i].title%></td>
+                <td><img src="<%= wheels[i].thumb %>"></td>
+                <td><%= wheels[i].link%></td>
+                <td><%= wheels[i].sort%></td>
+                <td>
+                    <a href="/admin/wheelEdit/<%=wheels[i].id%>" class="layui-btn">编辑</a>
+                    <a href="/admin/del-wheel/<%=wheels[i].id%>" class="layui-btn layui-btn-danger">删除</a>
+                </td>
+              </tr>
+              <% }%>
+            </tbody>
+          </table>
+                
+    </div>
+    <script src="/public/admin/layui/layui.js"></script>
+</body>
+</html>

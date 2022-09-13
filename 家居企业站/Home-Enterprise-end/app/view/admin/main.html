@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>主页</title>
+    <link rel="stylesheet" href="/public/admin/layui/css/layui.css">
+    <link rel="stylesheet" href="/public/admin/css/main.css">
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo layui-hide-xs layui-bg-black">后台管理</div>
+            <!-- 头部区域（可配合layui 已有的水平导航） -->
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                    <a href="javascript:;">
+                        <%= username%>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" id="change-pass">修改密码</a></dd>
+                        <dd><a href="/admin/loginout">退出登录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="nav">
+                    <li class="layui-nav-item"><a href="javascript:;" link="/admin/info">网站信息</a></li>
+                    <li class="layui-nav-item"><a href="javascript:;" link="/admin/wheel">轮播图管理</a></li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">产品管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;" link="/admin/add-product">添加产品</a></dd>
+                            <dd><a href="javascript:;" link="/admin/product">产品列表</a></dd>
+                            
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">新闻管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;" link="/admin/newsAdd">添加新闻</a></dd>
+                            <dd><a href="javascript:;" link="/admin/news">新闻列表</a></dd>                            
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">单页面管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;" link="/admin/pageAdd">单页面添加</a></dd>
+                            <dd><a href="javascript:;" link="/admin/page">单页面列表</a></dd>                            
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">合作意向</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;" link="/admin/cooperate">合作列表</a></dd>                           
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body" style="padding-bottom: 0;">
+            <!-- 内容主体区域 -->
+            <div class="layui-tab layui-tab-card" lay-allowClose="true" lay-filter="tab" style="height: 90%;">
+                <ul class="layui-tab-title">
+                    <!-- <li class="layui-this">网站信息</li> -->
+
+                </ul>
+                <div class="layui-tab-content">
+                    <!-- <div class="layui-tab-item layui-show">1</div> -->
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="/public/admin/layui/layui.js"></script>
+    <script>
+        //JS 
+        layui.use(function () {
+            var element = layui.element,
+                layer = layui.layer, //加载layer模块
+                util = layui.util,
+                $ = layui.$,
+                form = layui.form;
+            /*
+            点击导航在选项中添加导航
+            */
+            var tabs = {};
+            element.on('nav(nav)', function (data) {
+                var title = data.text();
+                var link = data.attr('link');
+                if (link) {
+                    if (!tabs[link]) {
+                        // 标题、显示的页面链接
+                        element.tabAdd('tab', {
+                            title: title,
+                            content: ' <iframe src="' + link + '"></iframe>', //支持传入html
+                            id: link
+                        });
+                        tabs[link] = true;
+                    }
+                    element.tabChange('tab', link);
+                }
+            });
+            element.on('tabDelete(tab)', function (data) {
+                var id = this.parentElement.getAttribute('lay-id');
+                delete tabs[id]
+            });
+            var changePass = document.querySelector("#change-pass");
+            var changePassIndex;
+            changePass.onclick = function () {
+                form.val("pass-form",{  // 点击修改密码使得表格赋值为空
+                    "oldpass":"",
+                    "newpass":"",
+                    "renewpass":"",
+                })
+                changePassIndex = layer.open({
+                    type: 1,
+                    shade: false,
+                    area:'500px',
+                    title: false, //不显示标题
+                    content: $("#pass-form"),
+                })
+            }
+            form.on("submit(change-pass)",function(data){ // 监听表单提交
+                var field = data.field;
+                if(field.newpass !== field.renewpass){
+                    layer.msg("新密码与确认新密码不一致") //layui内置提示框
+                    return false;
+                }
+                $.ajax({
+                    url:"/admin/change-pass",
+                    type:"post",
+                    data:field,
+                    success:function(res){
+                        if(res.code ==200){
+                            layer.close(changePassIndex) //修改成功，关闭弹窗
+                        }
+                        // console.log(res.msg);
+                        layer.msg(res.msg)
+                    },
+                    error:function(){
+                        layer.msg("修改出错")
+                    }
+                })
+                return false;
+            })
+        });
+    </script>
+</body>
+<form action="" id="pass-form" class="layui-form" style="padding:30px 50px 30px 0 " lay-filter="pass-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">原密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="oldpass" required lay-verify="required" placeholder="请输入原密码" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="newpass" required lay-verify="required" placeholder="请输入新密码" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="renewpass" required lay-verify="required" placeholder="请再次输入新密码" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="change-pass">立即提交</button>
+        </div>
+    </div>
+
+</form>
+
+</html>

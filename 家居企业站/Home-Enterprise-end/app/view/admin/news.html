@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图列表</title>
+    <link rel="stylesheet" href="/public/admin/layui/css/layui.css">
+    <link rel="stylesheet" href="/public/admin/css/common.css">
+    <link rel="stylesheet" href="/public/admin/css/product.css">
+</head>
+
+<body>
+    <div class="layui-panel">
+        <a href="/admin/newsAdd" class="layui-btn">添加</a>
+        <table class="layui-table" id="news" lay-filter="news-table"></table>
+
+    </div>
+    <script type="text/html" id="table-bar">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script src="/public/admin/layui/layui.js"></script>
+    <script>
+        layui.use(function () {
+            var table = layui.table;
+            var util = layui.util;
+            var $ = layui.jquery;
+            // [{id,title},{}]
+            table.render({
+                elem: '#news',
+                url: "/admin/news-data",
+                page: true,
+                limit: 2,
+                limits: [5, 10, 20, 30, 50],
+                cols: [
+                    [ //表头
+                        {
+                            field: 'id',
+                            title: 'ID',
+                            width: 80,
+                            fixed: 'left'
+                        }, {
+                            field: 'title',
+                            title: '用户名',
+                        }, {
+                            field: 'description',
+                            title: '描述',
+                        },{
+                            field: 'thumb',
+                            title: '缩略图',
+                            width: 200,
+                            sort: true,
+                            // d = {id,title,thumb}
+                            templet: '<div><img src="{{d.thumb}}"></div>'
+                        }, {
+                            field: 'create_time',
+                            title: '创建时间',
+                            width: 200,
+                            templet: function (d) {
+                                return util.toDateString(d.create_time, "yyyy-MM-dd")
+                            }
+                        }, {
+                            field: 'update_time',
+                            title: '修改时间',
+                            width: 200,
+                            templet: function (d) {
+                                return util.toDateString(d.update_time, 'yyyy-MM-dd')
+                            }
+                        }, {
+                            fixed: 'right',
+                            title: '操作',
+                            toolbar: '#table-bar'
+                        }
+                    ]
+                ],
+                response: {
+                    statusCode: 200,
+                    countName: 'total'
+                }
+            })
+            //监听工具条
+            table.on('tool(news-table)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除行么',
+                        function (index) {
+                            $.ajax({
+                                url: "/admin/del-news/" + data.id,
+                                type: "get",
+                                success: function (res) {
+                                    if (res.code === 200) {
+                                        obj.del();                                       
+                                    }
+                                    layer.msg(res.msg);
+                                    layer.close(index);
+                                },
+                                error: function () {
+                                    layer.msg("删除出错")
+                                },
+                            })
+
+                        });
+                } else if (obj.event === 'edit') {
+                    layer.alert('编辑行：<br>' + JSON.stringify(data))
+                    location.href = "/admin/edit-news/" + data.id;
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

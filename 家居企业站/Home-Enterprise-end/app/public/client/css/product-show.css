@@ -1,0 +1,47 @@
+.box{
+    padding: 30px 0;
+    margin: 0 auto;
+    text-align: center;
+}
+.box h1{
+    margin-bottom: 10px;
+    color: #3e3e3d;
+    font-size: 28px;
+}
+.time{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+.img img{
+    max-width: 100%;
+    transition: none;
+    transform: none;
+}
+.img img:hover{
+    transform: none;
+}
+.content{
+    margin: 0 auto;
+    width: 1250px;
+    padding-bottom: 30px;
+}
+.content p{
+    line-height: 2;
+    font-size: 14px;
+    display: inline-block;
+    width: 1250px;
+}
+.content a{
+    display: inline-block;
+    color: #e39b36;
+}
+.content .text{
+    padding-top: 20px;
+}
+.content .text p{
+    width: 1250px;
+    font-size: 14px;
+    color: #565658;
+    line-height: 30px;
+}

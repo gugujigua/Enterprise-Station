@@ -1,0 +1,47 @@
+body,html{
+    height: 100%;
+}
+.container{
+    width: 100%;
+    height: 100%;
+    background: url(/public/admin/images/loginbg.png)
+}
+.login-box{
+    width: 428px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #fff;
+    border-radius: 12px;
+}
+.login-box .title{
+    border-radius: 12px 12px 0 0;
+    height: 117px;
+    background-color: #148be4;
+    text-align: center;
+    font-size: 30px;
+    line-height: 117px;
+    color: #fff;
+}
+.login-box .form-box{
+    margin: 0 auto;
+    padding: 40px 70px 68px 3px;
+    /* padding-top: 40px;
+    padding-bottom: 68px; */
+}
+.login-box .layui-btn{
+    background-color: #148be4;
+    width: 288px;
+    height: 40px;
+}
+.login-box .login{
+    margin-left: 70px;
+}
+.copyright{
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    color: #fff;
+    text-align: center;
+}

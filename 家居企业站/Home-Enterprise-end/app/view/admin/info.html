@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/admin/layui/css/layui.css">
+    <link rel="stylesheet" href="/public/admin/css/info.css">
+</head>
+
+<body>
+    <div class="layui-panel">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">网站标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题"
+                        class="layui-input" value="<%=data.title%>">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">网站关键词</label>
+                <div class="layui-input-block">
+                    <input type="text" name="keywords" required lay-verify="required" placeholder="请输入关键词"
+                        class="layui-input" value="<%= data.keywords %>">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-block">
+                    <textarea name="description" placeholder="请输入网站描述"
+                        class="layui-textarea"><%= data.description%></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">LOGO</label>
+                <div class="layui-input-block">
+                    <div class="image-box">
+                        <input type="file" id="upload-file" class="upload-file">
+                        <img src="<%=data.logo%>" id="upload-image" class="upload-image">
+                        <input type="hidden" name="logo" id="upload-input" value="<%=data.logo%>">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">咨询热线</label>
+                <div class="layui-input-block">
+                    <input type="text" name="helpline" placeholder="请输入咨询热线" class="layui-input"
+                        value="<%=data.helpline%>">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">移动电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="telephone" placeholder="请输入移动电话" class="layui-input"
+                        value="<%=data.telephone%>">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">公司地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="address" placeholder="请输入公司地址" class="layui-input"
+                        value="<%=data.address%>">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">全国热线</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sales_hotline" placeholder="请输入全国销售热线" class="layui-input"
+                        value="<%=data.sale_hotline%>">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">二维码</label>
+                <div class="layui-input-block">
+                    <div class="image-box">
+                        <input type="file" id="upload-qr-file" class="upload-file">
+                        <img src="<%=data.qr%>" id="upload-qr-image" class="upload-image">
+                        <input type="hidden" name="qr" id="upload-qr-input" value="<%=data.qr%>" >
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">版权</label>
+                <div class="layui-input-block">
+                    <textarea name="copyright" placeholder="请输入版权内容"
+                        class="layui-textarea"><%=data.copyright%></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="info-submit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <script src="/public/admin/layui/layui.js"></script>
+    <script>
+        layui.use(function () {
+            var form = layui.form;
+            var $ = layui.$;
+            form.on('submit(info-submit)', function (data) {
+                layer.msg(JSON.stringify(data.field))
+                $.ajax({
+                    url: '/admin/info',
+                    type: 'POST',
+                    data: data.field,
+                    success: function (res) {
+                        layer.msg(res.msg);
+                    },
+                    error: function () {
+                        layer.msg("提交出错，请稍后重试")
+                    }
+                })
+                return false;
+
+            })
+            // LOGO 上传
+            var uploadLogoFile = document.querySelector("#upload-file");
+            var uploadLogoImage = document.querySelector("#upload-image");
+            var uploadLogoInput = document.querySelector('#upload-input');
+            uploadImage(uploadLogoFile, uploadLogoImage, uploadLogoInput)
+            // qr 上传
+            var uploadQrFile = document.querySelector("#upload-qr-file");
+            var uploadQrImage = document.querySelector("#upload-qr-image");
+            var uploadQrInput = document.querySelector('#upload-qr-input');
+            uploadImage(uploadQrFile, uploadQrImage, uploadQrInput)
+            function uploadImage(uploadFile, uploadImage, uploadInput) {
+                uploadFile.onchange = function () {
+                    // 判断 size、type
+                    var types = ["image/jpeg", "image/png", "image/gif"];
+                    var file = this.files[0];
+                    if (file.size / 1024 > 1024) {
+                        layer.msg('图片大小超出限制，支持1M内图片')
+                        return;
+                    }
+                    // 文件类型判断
+                    if (types.indexOf(file.type) === -1) {
+                        layer.msg("请选择png、jpg、gif格式图片")
+                        return;
+                    }
+                    // 上传
+                    var fd = new FormData();
+                    fd.append("image", file);
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("post", "/admin/upload");
+                    xhr.send(fd);
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                var res = JSON.parse(xhr.response)
+                                // xhr.response
+                                if (res.code == 200) {
+                                    uploadImage.src = res.data;
+                                    uploadInput.value = res.data;
+                                }
+                                layer.msg(res.msg)
+                            } else {
+
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // uploadFile.onchange = function () {
+            //     // 判断 size、type
+            //     var types = ["image/jpeg", "image/png", "image/gif"];
+            //     var file = this.files[0];
+            //     if (file.size / 1024 > 1024) {
+            //         layer.msg('图片大小超出限制，支持1M内图片')
+            //         return;
+            //     }
+            //     // 文件类型判断
+            //     if (types.indexOf(file.type) === -1) {
+            //         layer.msg("请选择png、jpg、gif格式图片")
+            //         return;
+            //     }
+            //     // 上传
+            //     var fd = new FormData();
+            //     fd.append("image", file);
+
+            //     var xhr = new XMLHttpRequest();
+            //     xhr.open("post", "/admin/upload");
+            //     xhr.send(fd);
+            //     xhr.onreadystatechange = function () {
+            //         if (xhr.readyState === 4) {
+            //             if (xhr.status === 200) {
+            //                 var res = JSON.parse(xhr.response)
+            //                 // xhr.response
+            //                 if (res.code == 200) {
+            //                     uploadImage.src = res.data;
+            //                     uploadInput.value = res.data;
+            //                 }
+            //                 layer.msg(res.msg)
+            //             } else {
+
+            //             }
+            //         }
+            //     }
+            // }
+        })
+    </script>
+</body>
+
+</html>
